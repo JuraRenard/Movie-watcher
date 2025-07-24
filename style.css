@@ -23,3 +23,23 @@ header input{flex:1 1 200px}
 @media(max-width:600px){
     .lists{grid-template-columns:1fr}
 }
+/* --- NEW: movie naming dialog --- */
+#nameDialog{
+    position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;z-index:1000}
+#nameDialog>div{background:var(--card);padding:1rem 1.5rem;border-radius:8px;max-width:300px;width:90%}
+#nameDialog input{width:100%;margin:.5rem 0;padding:.5rem}
+#nameDialog button{margin-right:.5rem}
+
+/* --- NEW: responsive player --- */
+#playerWrap{
+    position:fixed;inset:0;background:#000e;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:999}
+#playerWrap iframe{
+    width:90%;max-width:800px;
+    height:calc(90vw * 9/16);max-height:60vh;
+    border:none;border-radius:8px}
+#playerWrap button{
+    position:absolute;top:1rem;right:1rem;background:#ff5252;color:#fff;border:none;padding:.5rem .75rem;border-radius:50%;cursor:pointer}
+@media(max-width:600px){
+    #playerWrap iframe{width:95%;height:55vh}
+}
+
