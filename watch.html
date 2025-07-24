@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Movie Watcher</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<header>
+    <input id="idInput" type="text" placeholder="Movie ID (ttXXXXXXX)"/>
+    <button onclick="loadMovie()">Watch</button>
+    <button onclick="location.href='index.html'">← Back to Tracker</button>
+</header>
+<iframe id="player" allowfullscreen></iframe>
+
+<script>
+const idInput=document.getElementById('idInput');
+const player=document.getElementById('player');
+
+/* load from URL param or last saved */
+const params=new URLSearchParams(location.search);
+const startId=params.get('id') || localStorage.getItem('lastMovie') || '';
+if(startId){
+    idInput.value=startId;
+    player.src=`https://vidsrc.xyz/embed/movie/${startId}`;
+}
+
+function loadMovie(){
+    const id=idInput.value.trim();
+    if(!id) return;
+    player.src=`https://vidsrc.xyz/embed/movie/${id}`;
+    localStorage.setItem('lastMovie',id);
+}
+idInput.addEventListener('keydown',e=>{
+    if(e.key==='Enter') loadMovie();
+});
+</script>
+</body>
+</html>
