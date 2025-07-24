@@ -8,33 +8,39 @@
 </head>
 <body>
 <header>
-    <input id="idInput" type="text" placeholder="Movie ID (ttXXXXXXX)"/>
+    <input id="idInput" type="text" placeholder="Movie ID"/>
     <button onclick="loadMovie()">Watch</button>
-    <button onclick="location.href='index.html'">← Back to Tracker</button>
+    <button onclick="location.href='index.html'">← Tracker</button>
 </header>
-<iframe id="player" allowfullscreen></iframe>
+
+<!-- responsive player overlay -->
+<div id="playerWrap">
+    <button onclick="closePlayer()">✕</button>
+    <iframe id="player" allowfullscreen></iframe>
+</div>
 
 <script>
 const idInput=document.getElementById('idInput');
+const playerWrap=document.getElementById('playerWrap');
 const player=document.getElementById('player');
 
-/* load from URL param or last saved */
 const params=new URLSearchParams(location.search);
 const startId=params.get('id') || localStorage.getItem('lastMovie') || '';
-if(startId){
-    idInput.value=startId;
-    player.src=`https://vidsrc.xyz/embed/movie/${startId}`;
-}
+if(startId){ loadMovie(startId); }
 
-function loadMovie(){
-    const id=idInput.value.trim();
-    if(!id) return;
-    player.src=`https://vidsrc.xyz/embed/movie/${id}`;
-    localStorage.setItem('lastMovie',id);
+function loadMovie(id=startId){
+    const val=idInput.value.trim() || id;
+    if(!val) return;
+    idInput.value=val;
+    player.src=`https://vidsrc.xyz/embed/movie/${val}`;
+    playerWrap.style.display='flex';
+    localStorage.setItem('lastMovie',val);
 }
-idInput.addEventListener('keydown',e=>{
-    if(e.key==='Enter') loadMovie();
-});
+function closePlayer(){
+    playerWrap.style.display='none';
+    player.src='';
+}
+idInput.addEventListener('keydown',e=>{if(e.key==='Enter')loadMovie();});
 </script>
 </body>
 </html>
